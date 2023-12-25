@@ -17,9 +17,7 @@ Special thanks to Matthew A. Titmus for his insightful book, which served as the
 ## How to Use
 
 - Clone or download the repository.
-- Set up your environment as described in the `INSTALL.md` file.
-- Refer to `EXAMPLES.md` for examples and use cases of the implemented code.
-- Detailed comments and documentation within the code provide additional guidance.
+
 
 ## Contribution
 
