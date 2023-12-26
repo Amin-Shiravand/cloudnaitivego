@@ -1,0 +1,13 @@
+#docker ignore file
+
+#ignore all the read me files
+**/README*
+**/*.md
+**/.git
+**/gitignore
+**/*.Dockerfile
+**/Dockerfile
+vendor/
+tests/
+scripts/
+LICENSE/

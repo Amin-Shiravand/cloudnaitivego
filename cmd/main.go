@@ -1,7 +1,7 @@
 package main
 
 import (
-	"cloudnaitivego/cloud_Native"
+	"cloudnaitivego/internal"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -15,29 +15,29 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/v1/{key}", cloud_Native.KeyValuePutHandler).Methods("PUT")
-	r.HandleFunc("/v1/{key}", cloud_Native.KeyValueGetHandler).Methods("GET")
+	r.HandleFunc("/v1/{key}", src.KeyValuePutHandler).Methods("PUT")
+	r.HandleFunc("/v1/{key}", src.KeyValueGetHandler).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8082", r))
 }
 
 func initializeTransactionLog() error {
 	var err error
-	transact, err := cloud_Native.NewFileTransactionLogger("transaction.log")
+	transact, err := src.NewFileTransactionLogger("transaction.log")
 	if err != nil {
 		return fmt.Errorf("failed to create transaction logger: %w", err)
 	}
 	events, errors := transact.ReadEvents()
-	e, ok := cloud_Native.Event{}, true
+	e, ok := src.Event{}, true
 
 	for ok && err == nil {
 		select {
 		case err, ok = <-errors:
 		case e, ok = <-events:
 			switch e.EventType {
-			case cloud_Native.EventDelete:
-				err = cloud_Native.Delete(e.Key)
-			case cloud_Native.EventPut:
-				err = cloud_Native.Put(e.Key, e.Value)
+			case src.EventDelete:
+				err = src.Delete(e.Key)
+			case src.EventPut:
+				err = src.Put(e.Key, e.Value)
 			}
 
 		}
